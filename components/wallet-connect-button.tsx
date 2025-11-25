@@ -31,8 +31,8 @@ export function WalletConnectButton({
     return () => document.removeEventListener('click', handleClickOutside)
   }, [showDisconnectMenu])
 
-  const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
+  const handleClick = (e?: React.MouseEvent<HTMLButtonElement>) => {
+    e?.stopPropagation()
 
     if (account.isConnected) {
       setShowDisconnectMenu(!showDisconnectMenu)
@@ -41,14 +41,14 @@ export function WalletConnectButton({
     }
   }
 
-  const handleDisconnect = (e: React.MouseEvent) => {
-    e.stopPropagation()
+  const handleDisconnect = (e?: React.MouseEvent) => {
+    e?.stopPropagation()
     disconnect()
     setShowDisconnectMenu(false)
   }
 
-  const handleOpenModal = (e: React.MouseEvent) => {
-    e.stopPropagation()
+  const handleOpenModal = (e?: React.MouseEvent) => {
+    e?.stopPropagation()
     open()
     setShowDisconnectMenu(false)
   }
