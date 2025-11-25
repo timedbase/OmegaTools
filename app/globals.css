@@ -147,6 +147,10 @@
   footer * {
     color: oklch(0.98 0 0) !important;
   }
+
+  nav button span {
+    color: oklch(0.98 0 0) !important;
+  }
 }
 
 /* Added blob animation keyframes and utility classes for the new shader background */

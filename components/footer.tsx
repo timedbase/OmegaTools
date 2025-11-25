@@ -12,7 +12,7 @@ export function Footer() {
 
         <div className="flex items-center gap-4">
           <a
-            href="https://twitter.com/omegatools"
+            href="https://twitter.com/OmegaToolx"
             target="_blank"
             rel="noopener noreferrer"
             className="group flex items-center gap-2 transition-colors hover:text-foreground"
