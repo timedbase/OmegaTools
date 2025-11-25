@@ -8,7 +8,7 @@ interface MagneticButtonProps {
   className?: string
   variant?: "primary" | "secondary" | "ghost"
   size?: "default" | "lg"
-  onClick?: () => void
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export function MagneticButton({
