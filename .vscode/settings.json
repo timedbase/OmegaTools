@@ -1,0 +1,8 @@
+{
+  "workbench.statusBar.visible": true,
+  "window.title": "${rootName} - OmegaTools DeFi Toolkit",
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#1a1a1a",
+    "statusBar.foreground": "#ffffff"
+  }
+}
