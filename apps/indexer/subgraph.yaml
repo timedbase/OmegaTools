@@ -1,0 +1,195 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema/schema.graphql
+dataSources:
+  # Standard Token Factory
+  - kind: ethereum
+    name: StandardTokenFactory
+    network: monad
+    source:
+      address: "0xE4D8cF581CaFc6E6A30DE12ebbE12EfD1EE3871a"
+      abi: StandardTokenFactory
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - TokenCreation
+        - User
+      abis:
+        - name: StandardTokenFactory
+          file: ./abis/StandardTokenFactory.json
+      eventHandlers:
+        - event: TokenCreated(indexed address,indexed address,string,string,uint256,uint256,uint256)
+          handler: handleStandardTokenCreated
+      file: ./src/standard-token-factory.ts
+
+  # AntiBot Token Factory
+  - kind: ethereum
+    name: AntiBotTokenFactory
+    network: monad
+    source:
+      address: "0x322e4A64156E7ff5040C2e0cEa2AacAE9E83B420"
+      abi: AntiBotTokenFactory
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - TokenCreation
+        - User
+      abis:
+        - name: AntiBotTokenFactory
+          file: ./abis/AntiBotTokenFactory.json
+      eventHandlers:
+        - event: TokenCreated(indexed address,indexed address,string,string,uint256)
+          handler: handleAntiBotTokenCreated
+      file: ./src/antibot-token-factory.ts
+
+  # Liquidity Locker
+  - kind: ethereum
+    name: LiquidityLocker
+    network: monad
+    source:
+      address: "0xa36E03745d1dc28f5B56cb04980DB99e7c866Be4"
+      abi: LiquidityLocker
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Lock
+        - User
+      abis:
+        - name: LiquidityLocker
+          file: ./abis/LiquidityLocker.json
+      eventHandlers:
+        - event: ERC20Locked(indexed uint256,indexed address,indexed address,uint256,uint256)
+          handler: handleERC20Locked
+        - event: ERC20Unlocked(indexed uint256,indexed address,indexed address,uint256)
+          handler: handleERC20Unlocked
+      file: ./src/liquidity-locker.ts
+
+  # Liquidity Generation Token Factory
+  - kind: ethereum
+    name: LiquidityGenTokenFactory
+    network: monad
+    source:
+      address: "0x68C1F787610E5311C48A634DB2DFCd5D007064db"
+      abi: LiquidityGenTokenFactory
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - User
+      abis:
+        - name: LiquidityGenTokenFactory
+          file: ./abis/LiquidityGenTokenFactory.json
+      eventHandlers:
+        - event: TokenCreated(indexed address,indexed address,string,string,uint256,uint256,uint256,uint256)
+          handler: handleLiquidityGenTokenCreated
+      file: ./src/liquidity-gen-token-factory.ts
+
+  # AntiBot Liquidity Generation Factory
+  - kind: ethereum
+    name: AntiBotLiquidityGenFactory
+    network: monad
+    source:
+      address: "0x45fCE82e66a2e453B7E89aE9C8835f1c3DB7f725"
+      abi: AntiBotLiquidityGenFactory
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - User
+      abis:
+        - name: AntiBotLiquidityGenFactory
+          file: ./abis/AntiBotLiquidityGenFactory.json
+      eventHandlers:
+        - event: TokenCreated(indexed address,indexed address,string,string,uint256,uint256,uint256,uint256)
+          handler: handleAntiBotLiquidityGenTokenCreated
+      file: ./src/antibot-liquidity-gen-factory.ts
+
+  # Buyback Baby Token Factory
+  - kind: ethereum
+    name: BuybackBabyTokenFactory
+    network: monad
+    source:
+      address: "0xeBEe683f60840AF5Cb71E7f60c296888D343154C"
+      abi: BuybackBabyTokenFactory
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - User
+      abis:
+        - name: BuybackBabyTokenFactory
+          file: ./abis/BuybackBabyTokenFactory.json
+      eventHandlers:
+        - event: TokenCreated(indexed address,indexed address,string,string,uint256,address)
+          handler: handleBuybackBabyTokenCreated
+      file: ./src/buyback-baby-token-factory.ts
+
+  # AntiBot Buyback Baby Factory
+  - kind: ethereum
+    name: AntiBotBuybackBabyFactory
+    network: monad
+    source:
+      address: "0x36a172246ee20ab48523812e3d413fe09d807b64"
+      abi: AntiBotBuybackBabyFactory
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - User
+      abis:
+        - name: AntiBotBuybackBabyFactory
+          file: ./abis/AntiBotBuybackBabyFactory.json
+      eventHandlers:
+        - event: TokenCreated(indexed address,indexed address,string,string,uint256,address)
+          handler: handleAntiBotBuybackBabyTokenCreated
+      file: ./src/antibot-buyback-baby-factory.ts
+
+  # Multisender
+  - kind: ethereum
+    name: Multisender
+    network: monad
+    source:
+      address: "0x7789e88f8F49CC3Ca9C154591D525062A47a988C"
+      abi: Multisender
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - MultisendTransaction
+        - User
+      abis:
+        - name: Multisender
+          file: ./abis/Multisender.json
+      eventHandlers:
+        - event: NativeMultisend(indexed address,uint256,uint256,uint256)
+          handler: handleNativeMultisend
+        - event: ERC20Multisend(indexed address,indexed address,uint256,uint256,uint256)
+          handler: handleERC20Multisend
+      file: ./src/multisender.ts

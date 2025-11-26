@@ -1,0 +1,24 @@
+{
+  "name": "indexer",
+  "version": "1.0.0",
+  "description": "OmegaTools Subgraph Indexer",
+  "private": true,
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --studio omega-tools",
+    "deploy:hosted": "graph deploy --product hosted-service <GITHUB_USERNAME>/omega-tools",
+    "create-local": "graph create --node http://localhost:8020/ omega-tools",
+    "remove-local": "graph remove --node http://localhost:8020/ omega-tools",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 omega-tools",
+    "test": "graph test",
+    "clean": "rm -rf build generated node_modules"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "^0.66.0",
+    "@graphprotocol/graph-ts": "^0.32.0"
+  },
+  "devDependencies": {
+    "matchstick-as": "^0.6.0"
+  }
+}

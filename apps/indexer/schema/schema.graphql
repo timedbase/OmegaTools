@@ -1,0 +1,99 @@
+type User @entity {
+  id: ID! # wallet address
+  tokensCreated: [Token!]! @derivedFrom(field: "creator")
+  locksCreated: [Lock!]! @derivedFrom(field: "owner")
+  multisendTransactions: [MultisendTransaction!]! @derivedFrom(field: "sender")
+  totalTokensCreated: BigInt!
+  totalLocksCreated: BigInt!
+  totalMultisends: BigInt!
+  createdAt: BigInt!
+  lastActivityAt: BigInt!
+}
+
+type Token @entity {
+  id: ID! # token address
+  creator: User!
+  factory: String! # factory address
+  tokenType: String! # "standard", "antibot", "liquidityGen", "buybackBaby"
+  name: String!
+  symbol: String!
+  decimals: Int
+  totalSupply: BigInt!
+  initialSupply: BigInt
+  creationFee: BigInt
+  creationTxHash: String!
+  createdAt: BigInt!
+  blockNumber: BigInt!
+
+  # AntiBot specific fields
+  maxTxPercent: BigInt
+  maxWalletPercent: BigInt
+  maxAntiWhalePercent: BigInt
+
+  # Liquidity Gen specific
+  charityWallet: String
+  router: String
+
+  # Buyback Baby specific
+  rewardToken: String
+  marketingWallet: String
+}
+
+type Lock @entity {
+  id: ID! # lockId
+  lockId: BigInt!
+  owner: User!
+  token: String! # token address
+  amount: BigInt!
+  unlockTime: BigInt!
+  lockTime: BigInt!
+  unlocked: Boolean!
+  unlockTxHash: String
+  unlockedAt: BigInt
+  lockFee: BigInt
+  txHash: String!
+  blockNumber: BigInt!
+}
+
+type MultisendTransaction @entity {
+  id: ID! # tx hash + log index
+  sender: User!
+  transactionType: String! # "native" or "erc20"
+  token: String # token address (null for native)
+  totalAmount: BigInt!
+  recipientCount: BigInt!
+  feeCharged: BigInt!
+  txHash: String!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+}
+
+type FactoryStats @entity {
+  id: ID! # factory address
+  factoryType: String! # "standard", "antibot", etc.
+  totalTokensCreated: BigInt!
+  totalCreators: BigInt!
+  totalFeesCollected: BigInt!
+  lastTokenCreatedAt: BigInt
+}
+
+type GlobalStats @entity {
+  id: ID! # "global"
+  totalTokens: BigInt!
+  totalLocks: BigInt!
+  totalMultisends: BigInt!
+  totalUsers: BigInt!
+  totalVolumeLocked: BigInt!
+  totalFeesCollected: BigInt!
+}
+
+type DailyStats @entity {
+  id: ID! # timestamp / 86400
+  date: BigInt!
+  tokensCreated: BigInt!
+  locksCreated: BigInt!
+  multisends: BigInt!
+  newUsers: BigInt!
+  volumeLocked: BigInt!
+  feesCollected: BigInt!
+}

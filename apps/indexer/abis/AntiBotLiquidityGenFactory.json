@@ -1,0 +1,17 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "token", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "creator", "type": "address" },
+      { "indexed": false, "internalType": "string", "name": "name", "type": "string" },
+      { "indexed": false, "internalType": "string", "name": "symbol", "type": "string" },
+      { "indexed": false, "internalType": "uint256", "name": "totalSupply", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "reflectionFee", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "liquidityFee", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "charityFee", "type": "uint256" }
+    ],
+    "name": "TokenCreated",
+    "type": "event"
+  }
+]
