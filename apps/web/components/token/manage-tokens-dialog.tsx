@@ -132,7 +132,7 @@ export function ManageTokensDialog({ isOpen, onClose }: ManageTokensDialogProps)
   }
 
   return (
-    <Dialog isOpen={isOpen} onClose={onClose} title="Manage Your Tokens" maxWidth="3xl">
+    <Dialog isOpen={isOpen} onClose={onClose} title="Manage Your Tokens" maxWidth="2xl">
       <div className="space-y-6">
         {!isConnected ? (
           <div className="rounded-lg border border-orange-500/30 bg-orange-500/10 p-6 text-center">
