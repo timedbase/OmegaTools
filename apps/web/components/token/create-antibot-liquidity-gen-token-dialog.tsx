@@ -246,7 +246,7 @@ export function CreateAntiBotLiquidityGenTokenDialog({ isOpen, onClose }: Create
 
               <MagneticButton
                 onClick={onClose}
-                variant="outline"
+                variant="secondary"
                 disabled={isCreating}
               >
                 Cancel

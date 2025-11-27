@@ -280,7 +280,7 @@ export function CreateBuybackBabyTokenDialog({ isOpen, onClose }: CreateBuybackB
 
               <MagneticButton
                 onClick={onClose}
-                variant="outline"
+                variant="secondary"
                 disabled={isCreating}
               >
                 Cancel

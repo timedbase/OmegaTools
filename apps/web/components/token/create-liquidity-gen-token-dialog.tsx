@@ -253,7 +253,7 @@ export function CreateLiquidityGenTokenDialog({ isOpen, onClose }: CreateLiquidi
 
               <MagneticButton
                 onClick={onClose}
-                variant="outline"
+                variant="secondary"
                 disabled={isCreating}
               >
                 Cancel
