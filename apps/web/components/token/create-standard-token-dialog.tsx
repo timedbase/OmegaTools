@@ -54,14 +54,14 @@ export function CreateStandardTokenDialog({ isOpen, onClose }: CreateStandardTok
         txHash: result.txHash,
       })
 
-      // Reset form after success
+      // Reset form after success - give user more time to view the address
       setTimeout(() => {
         setTokenName("")
         setTokenSymbol("")
         setTotalSupply("")
         setDecimals("18")
         setSuccessData(null)
-      }, 10000)
+      }, 60000) // 60 seconds
     } catch (err: any) {
       setError(err.message || "Failed to create token")
     } finally {

@@ -5,6 +5,7 @@ import { Dialog } from "@/components/ui/dialog"
 import { MagneticButton } from "@/components/magnetic-button"
 import { ShieldPlus } from "lucide-react"
 import { useTokenFactory } from "@/hooks/use-token-factory"
+import { DEX_CONFIGS } from "@/lib/dex-config"
 
 interface CreateAntiBotBuybackBabyTokenDialogProps {
   isOpen: boolean
@@ -17,7 +18,7 @@ export function CreateAntiBotBuybackBabyTokenDialog({ isOpen, onClose }: CreateA
   const [totalSupply, setTotalSupply] = useState("")
   const [decimals, setDecimals] = useState("18")
   const [rewardToken, setRewardToken] = useState("")
-  const [router, setRouter] = useState("")
+  const [selectedDex, setSelectedDex] = useState("")
   const [marketingWallet, setMarketingWallet] = useState("")
   const [maxTxPercent, setMaxTxPercent] = useState("50")
   const [maxWalletPercent, setMaxWalletPercent] = useState("100")
@@ -29,8 +30,14 @@ export function CreateAntiBotBuybackBabyTokenDialog({ isOpen, onClose }: CreateA
   const { createToken, getExplorerUrl, getTxExplorerUrl, isConnected, isCorrectNetwork } = useTokenFactory()
 
   const handleCreate = async () => {
-    if (!tokenName || !tokenSymbol || !totalSupply || !decimals || !rewardToken || !router || !marketingWallet) {
+    if (!tokenName || !tokenSymbol || !totalSupply || !decimals || !rewardToken || !selectedDex || !marketingWallet) {
       setError("Please fill all required fields")
+      return
+    }
+
+    const router = DEX_CONFIGS.find(d => d.name === selectedDex)?.router
+    if (!router) {
+      setError("Invalid DEX selection")
       return
     }
 
@@ -66,19 +73,20 @@ export function CreateAntiBotBuybackBabyTokenDialog({ isOpen, onClose }: CreateA
         txHash: result.txHash,
       })
 
+      // Reset form after success - give user more time to view the address
       setTimeout(() => {
         setTokenName("")
         setTokenSymbol("")
         setTotalSupply("")
         setDecimals("18")
         setRewardToken("")
-        setRouter("")
+        setSelectedDex("")
         setMarketingWallet("")
         setMaxTxPercent("50")
         setMaxWalletPercent("100")
         setMaxAntiWhalePercent("5")
         setSuccessData(null)
-      }, 10000)
+      }, 60000) // 60 seconds
     } catch (err: any) {
       setError(err.message || "Failed to create token")
     } finally {
@@ -178,14 +186,24 @@ export function CreateAntiBotBuybackBabyTokenDialog({ isOpen, onClose }: CreateA
               </div>
 
               <div>
-                <label className="mb-2 block font-mono text-sm text-foreground/80">Router Address</label>
-                <input
-                  type="text"
-                  value={router}
-                  onChange={(e) => setRouter(e.target.value)}
-                  placeholder="0x... (Uniswap V2 Router)"
+                <label className="mb-2 block font-mono text-sm text-foreground/80">DEX Router</label>
+                <select
+                  value={selectedDex}
+                  onChange={(e) => setSelectedDex(e.target.value)}
                   className="w-full rounded-lg border border-foreground/20 bg-background/50 px-4 py-2.5 font-mono text-sm text-foreground backdrop-blur-sm focus:border-foreground/40 focus:outline-none"
-                />
+                >
+                  <option value="">Select a DEX</option>
+                  {DEX_CONFIGS.map((dex) => (
+                    <option key={dex.name} value={dex.name}>
+                      {dex.displayName}
+                    </option>
+                  ))}
+                </select>
+                {selectedDex && (
+                  <p className="mt-2 font-mono text-xs text-foreground/60">
+                    Router: {DEX_CONFIGS.find(d => d.name === selectedDex)?.router}
+                  </p>
+                )}
               </div>
 
               <div>

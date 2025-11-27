@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { useAccount, useWriteContract, useSwitchChain, useReadContract } from 'wagmi'
-import { parseEther, parseUnits, keccak256, toBytes } from 'viem'
+import { useAccount, useWriteContract, useSwitchChain, useReadContract, usePublicClient } from 'wagmi'
+import { parseEther, parseUnits, keccak256, toBytes, decodeEventLog } from 'viem'
 import {
   TOKEN_FACTORY_ADDRESSES,
   STANDARD_TOKEN_FACTORY_ABI,
@@ -24,6 +24,7 @@ export function useTokenFactory() {
   const { address, chainId } = useAccount()
   const { switchChainAsync } = useSwitchChain()
   const { writeContractAsync } = useWriteContract()
+  const publicClient = usePublicClient()
   const [createdTokenAddress, setCreatedTokenAddress] = useState<`0x${string}` | null>(null)
 
   const createToken = async (
@@ -213,10 +214,45 @@ export function useTokenFactory() {
         value,
       })
 
-      // For now, return the tx hash. Token address extraction can be improved
-      // by parsing events from the transaction receipt
+      // Wait for transaction receipt to get the token address from events
+      if (!publicClient) {
+        throw new Error('Public client not available')
+      }
+
+      const receipt = await publicClient.waitForTransactionReceipt({
+        hash,
+        confirmations: 1,
+      })
+
+      // Extract token address from TokenCreated event
+      let tokenAddress: `0x${string}` = '0x0000000000000000000000000000000000000000' as `0x${string}`
+
+      for (const log of receipt.logs) {
+        try {
+          const decoded = decodeEventLog({
+            abi,
+            data: log.data,
+            topics: log.topics,
+          })
+
+          if (decoded.eventName === 'TokenCreated') {
+            // Different factory types have different event structures
+            // Standard factory: TokenCreated(creator, tokenAddress, ...)
+            // Other factories: TokenCreated(token, creator, ...)
+            const args = decoded.args as any
+            tokenAddress = (args.tokenAddress || args.token) as `0x${string}`
+            break
+          }
+        } catch (e) {
+          // Skip logs that don't match our ABI
+          continue
+        }
+      }
+
+      setCreatedTokenAddress(tokenAddress)
+
       return {
-        tokenAddress: '0x0000000000000000000000000000000000000000' as `0x${string}`,
+        tokenAddress,
         txHash: hash,
       }
     } catch (error: any) {

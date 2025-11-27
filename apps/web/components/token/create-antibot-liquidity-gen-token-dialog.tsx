@@ -5,6 +5,7 @@ import { Dialog } from "@/components/ui/dialog"
 import { MagneticButton } from "@/components/magnetic-button"
 import { ShieldCheck } from "lucide-react"
 import { useTokenFactory } from "@/hooks/use-token-factory"
+import { DEX_CONFIGS } from "@/lib/dex-config"
 
 interface CreateAntiBotLiquidityGenTokenDialogProps {
   isOpen: boolean
@@ -17,7 +18,7 @@ export function CreateAntiBotLiquidityGenTokenDialog({ isOpen, onClose }: Create
   const [totalSupply, setTotalSupply] = useState("")
   const [decimals, setDecimals] = useState("18")
   const [charityWallet, setCharityWallet] = useState("")
-  const [router, setRouter] = useState("")
+  const [selectedDex, setSelectedDex] = useState("")
   const [maxTxPercent, setMaxTxPercent] = useState("50")
   const [maxWalletPercent, setMaxWalletPercent] = useState("100")
   const [maxAntiWhalePercent, setMaxAntiWhalePercent] = useState("5")
@@ -28,8 +29,14 @@ export function CreateAntiBotLiquidityGenTokenDialog({ isOpen, onClose }: Create
   const { createToken, getExplorerUrl, getTxExplorerUrl, isConnected, isCorrectNetwork } = useTokenFactory()
 
   const handleCreate = async () => {
-    if (!tokenName || !tokenSymbol || !totalSupply || !decimals || !charityWallet || !router) {
+    if (!tokenName || !tokenSymbol || !totalSupply || !decimals || !charityWallet || !selectedDex) {
       setError("Please fill all required fields")
+      return
+    }
+
+    const router = DEX_CONFIGS.find(d => d.name === selectedDex)?.router
+    if (!router) {
+      setError("Invalid DEX selection")
       return
     }
 
@@ -64,18 +71,19 @@ export function CreateAntiBotLiquidityGenTokenDialog({ isOpen, onClose }: Create
         txHash: result.txHash,
       })
 
+      // Reset form after success - give user more time to view the address
       setTimeout(() => {
         setTokenName("")
         setTokenSymbol("")
         setTotalSupply("")
         setDecimals("18")
         setCharityWallet("")
-        setRouter("")
+        setSelectedDex("")
         setMaxTxPercent("50")
         setMaxWalletPercent("100")
         setMaxAntiWhalePercent("5")
         setSuccessData(null)
-      }, 10000)
+      }, 60000) // 60 seconds
     } catch (err: any) {
       setError(err.message || "Failed to create token")
     } finally {
@@ -175,14 +183,24 @@ export function CreateAntiBotLiquidityGenTokenDialog({ isOpen, onClose }: Create
               </div>
 
               <div>
-                <label className="mb-2 block font-mono text-sm text-foreground/80">Router Address</label>
-                <input
-                  type="text"
-                  value={router}
-                  onChange={(e) => setRouter(e.target.value)}
-                  placeholder="0x... (Uniswap V2 Router)"
+                <label className="mb-2 block font-mono text-sm text-foreground/80">DEX Router</label>
+                <select
+                  value={selectedDex}
+                  onChange={(e) => setSelectedDex(e.target.value)}
                   className="w-full rounded-lg border border-foreground/20 bg-background/50 px-4 py-2.5 font-mono text-sm text-foreground backdrop-blur-sm focus:border-foreground/40 focus:outline-none"
-                />
+                >
+                  <option value="">Select a DEX</option>
+                  {DEX_CONFIGS.map((dex) => (
+                    <option key={dex.name} value={dex.name}>
+                      {dex.displayName}
+                    </option>
+                  ))}
+                </select>
+                {selectedDex && (
+                  <p className="mt-2 font-mono text-xs text-foreground/60">
+                    Router: {DEX_CONFIGS.find(d => d.name === selectedDex)?.router}
+                  </p>
+                )}
               </div>
 
               <div className="rounded-lg border border-foreground/10 bg-foreground/5 p-4">

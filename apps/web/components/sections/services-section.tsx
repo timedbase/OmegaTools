@@ -23,21 +23,21 @@ export function ServicesSection() {
   return (
     <section
       ref={ref}
-      className="flex h-screen w-screen shrink-0 snap-start items-center px-6 pt-20 md:px-12 md:pt-0 lg:px-16"
+      className="flex h-screen w-screen shrink-0 snap-start items-center px-4 pt-20 md:px-12 md:pt-0 lg:px-16"
     >
       <div className="mx-auto w-full max-w-7xl">
         <div
-          className={`mb-12 transition-all duration-700 md:mb-16 ${
+          className={`mb-6 transition-all duration-700 md:mb-16 ${
             isVisible ? "translate-y-0 opacity-100" : "-translate-y-12 opacity-0"
           }`}
         >
-          <h2 className="mb-2 font-sans text-5xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
+          <h2 className="mb-1 font-sans text-3xl font-light tracking-tight text-foreground md:mb-2 md:text-6xl lg:text-7xl">
             Token
           </h2>
-          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Create your own token</p>
+          <p className="font-mono text-[10px] text-foreground/60 md:text-sm lg:text-base">/ Create your own token</p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 md:gap-y-10 lg:gap-x-16">
+        <div className="grid gap-3 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-x-16 lg:gap-y-10">
           {[
             {
               title: "Standard Token",
@@ -133,12 +133,12 @@ function ServiceCard({
         transitionDelay: `${index * 150}ms`,
       }}
     >
-      <div className="mb-3 flex items-center gap-3">
-        <div className="h-px w-8 bg-foreground/30 transition-all duration-300 group-hover:w-12 group-hover:bg-foreground/50" />
-        <span className="font-mono text-xs text-foreground/60">0{index + 1}</span>
+      <div className="mb-2 flex items-center gap-2 md:mb-3 md:gap-3">
+        <div className="h-px w-6 bg-foreground/30 transition-all duration-300 group-hover:w-10 group-hover:bg-foreground/50 md:w-8 md:group-hover:w-12" />
+        <span className="font-mono text-[10px] text-foreground/60 md:text-xs">0{index + 1}</span>
       </div>
-      <h3 className="mb-2 font-sans text-2xl font-light text-foreground md:text-3xl">{service.title}</h3>
-      <p className="max-w-sm text-sm leading-relaxed text-foreground/80 md:text-base">{service.description}</p>
+      <h3 className="mb-1 font-sans text-lg font-light text-foreground md:mb-2 md:text-2xl lg:text-3xl">{service.title}</h3>
+      <p className="max-w-sm text-xs leading-relaxed text-foreground/80 md:text-sm lg:text-base">{service.description}</p>
     </button>
   )
 }

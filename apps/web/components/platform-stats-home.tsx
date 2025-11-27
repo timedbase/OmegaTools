@@ -58,7 +58,7 @@ export function PlatformStatsHome() {
   const stats = data?.globalStats
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-2 md:gap-4 lg:grid-cols-4">
       <StatCard
         title="Tokens Created"
         value={stats?.totalTokensCreated || '0'}
@@ -99,17 +99,17 @@ function StatCard({
   icon: string
 }) {
   return (
-    <div className="group relative overflow-hidden rounded-lg border border-foreground/10 bg-foreground/5 p-6 backdrop-blur-sm transition-all duration-300 hover:border-foreground/20 hover:bg-foreground/10">
-      <div className="flex items-start justify-between">
+    <div className="group relative overflow-hidden rounded-lg border border-foreground/10 bg-foreground/5 p-3 backdrop-blur-sm transition-all duration-300 hover:border-foreground/20 hover:bg-foreground/10 md:p-6">
+      <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
         <div className="flex-1">
-          <p className="mb-2 font-mono text-xs text-foreground/60">{title}</p>
+          <p className="mb-1 font-mono text-[10px] text-foreground/60 md:mb-2 md:text-xs">{title}</p>
           {isLoading ? (
-            <div className="h-8 w-24 animate-pulse rounded bg-foreground/10" />
+            <div className="h-6 w-16 animate-pulse rounded bg-foreground/10 md:h-8 md:w-24" />
           ) : (
-            <p className="font-sans text-3xl font-light text-foreground">{value}</p>
+            <p className="font-sans text-xl font-light text-foreground md:text-3xl">{value}</p>
           )}
         </div>
-        <span className="text-2xl opacity-50 transition-opacity group-hover:opacity-100">{icon}</span>
+        <span className="text-lg opacity-50 transition-opacity group-hover:opacity-100 md:text-2xl">{icon}</span>
       </div>
       <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-purple-500/50 to-blue-500/50 opacity-0 transition-opacity group-hover:opacity-100" />
     </div>
