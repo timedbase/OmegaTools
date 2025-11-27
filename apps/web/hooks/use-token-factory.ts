@@ -229,7 +229,7 @@ export function useTokenFactory() {
 
       for (const log of receipt.logs) {
         try {
-          const decoded = decodeEventLog({
+          const decoded: any = decodeEventLog({
             abi,
             data: log.data,
             topics: log.topics,
@@ -239,7 +239,7 @@ export function useTokenFactory() {
             // Different factory types have different event structures
             // Standard factory: TokenCreated(creator, tokenAddress, ...)
             // Other factories: TokenCreated(token, creator, ...)
-            const args = decoded.args as any
+            const args = decoded.args
             tokenAddress = (args.tokenAddress || args.token) as `0x${string}`
             break
           }
