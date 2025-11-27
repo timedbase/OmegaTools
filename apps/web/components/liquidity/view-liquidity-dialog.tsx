@@ -128,7 +128,7 @@ export function ViewLiquidityDialog({ isOpen, onClose }: ViewLiquidityDialogProp
   }
 
   return (
-    <Dialog isOpen={isOpen} onClose={onClose} title="View All Locked Liquidity" maxWidth="4xl">
+    <Dialog isOpen={isOpen} onClose={onClose} title="View All Locked Liquidity" maxWidth="2xl">
       <div className="space-y-6">
         {/* Header with stats */}
         <div className="flex items-center justify-between rounded-lg border border-foreground/10 bg-foreground/5 p-4">
