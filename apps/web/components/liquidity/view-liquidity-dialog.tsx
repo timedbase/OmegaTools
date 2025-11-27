@@ -262,7 +262,7 @@ export function ViewLiquidityDialog({ isOpen, onClose }: ViewLiquidityDialogProp
                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
                     variant="ghost"
-                    size="sm"
+                    size="default"
                   >
                     Previous
                   </MagneticButton>
@@ -298,7 +298,7 @@ export function ViewLiquidityDialog({ isOpen, onClose }: ViewLiquidityDialogProp
                     onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                     disabled={currentPage === totalPages}
                     variant="ghost"
-                    size="sm"
+                    size="default"
                   >
                     Next
                   </MagneticButton>
