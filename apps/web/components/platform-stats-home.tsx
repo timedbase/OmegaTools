@@ -7,10 +7,10 @@ import { subgraphUrl, subgraphHeaders } from '@/lib/graphql/client'
 const PLATFORM_STATS_QUERY = gql`
   query GetPlatformStats {
     globalStats(id: "global") {
-      totalTokensCreated
-      totalLocksCreated
+      totalTokens
+      totalLocks
       totalMultisends
-      totalFeesPaid
+      totalFeesCollected
     }
     factoryStats(orderBy: totalTokensCreated, orderDirection: desc) {
       factoryType
@@ -21,10 +21,10 @@ const PLATFORM_STATS_QUERY = gql`
 `
 
 interface GlobalStats {
-  totalTokensCreated: string
-  totalLocksCreated: string
+  totalTokens: string
+  totalLocks: string
   totalMultisends: string
-  totalFeesPaid: string
+  totalFeesCollected: string
 }
 
 interface FactoryStats {
@@ -61,13 +61,13 @@ export function PlatformStatsHome() {
     <div className="grid grid-cols-2 gap-2 md:gap-4 lg:grid-cols-4">
       <StatCard
         title="Tokens Created"
-        value={stats?.totalTokensCreated || '0'}
+        value={stats?.totalTokens || '0'}
         isLoading={isLoading}
         icon="🪙"
       />
       <StatCard
         title="Liquidity Locks"
-        value={stats?.totalLocksCreated || '0'}
+        value={stats?.totalLocks || '0'}
         isLoading={isLoading}
         icon="🔒"
       />
@@ -79,7 +79,7 @@ export function PlatformStatsHome() {
       />
       <StatCard
         title="Total Fees (MON)"
-        value={stats ? (parseFloat(stats.totalFeesPaid) / 1e18).toFixed(2) : '0'}
+        value={stats ? (parseFloat(stats.totalFeesCollected) / 1e18).toFixed(2) : '0'}
         isLoading={isLoading}
         icon="💰"
       />
