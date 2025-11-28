@@ -12,11 +12,6 @@ const PLATFORM_STATS_QUERY = gql`
       totalMultisends
       totalFeesCollected
     }
-    factoryStats(orderBy: totalTokensCreated, orderDirection: desc) {
-      factoryType
-      totalTokensCreated
-      totalFeesCollected
-    }
   }
 `
 
