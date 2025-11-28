@@ -1,8 +1,8 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { request, gql } from 'graphql-request'
-import { subgraphUrl, subgraphHeaders } from '@/lib/graphql/client'
+import { gql } from 'graphql-request'
+import { graphQLClient } from '@/lib/graphql/client'
 
 const PLATFORM_STATS_QUERY = gql`
   query GetPlatformStats {
@@ -42,7 +42,7 @@ export function PlatformStatsHome() {
   const { data, isLoading, error } = useQuery<PlatformStatsData>({
     queryKey: ['platform-stats'],
     queryFn: async () => {
-      return await request(subgraphUrl, PLATFORM_STATS_QUERY)
+      return await graphQLClient.request(PLATFORM_STATS_QUERY)
     },
     refetchInterval: 30000, // Refetch every 30 seconds
   })

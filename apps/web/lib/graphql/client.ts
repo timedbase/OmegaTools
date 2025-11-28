@@ -8,12 +8,10 @@ const SUBGRAPH_URL =
 
 const API_KEY = process.env.NEXT_PUBLIC_GRAPH_API_KEY
 
-// Create headers with API key if available
-const headers: Record<string, string> = {
-  'Content-Type': 'application/json',
-}
+// Create headers with API key if available (only add auth if we have a real key)
+const headers: Record<string, string> = {}
 
-if (API_KEY) {
+if (API_KEY && API_KEY !== 'YOUR_API_KEY_HERE') {
   headers.Authorization = `Bearer ${API_KEY}`
 }
 
