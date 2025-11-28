@@ -42,15 +42,17 @@ export function PlatformStatsHome() {
   const { data, isLoading, error } = useQuery<PlatformStatsData>({
     queryKey: ['platform-stats'],
     queryFn: async () => {
-      return await request(subgraphUrl, PLATFORM_STATS_QUERY, {}, subgraphHeaders)
+      return await request(subgraphUrl, PLATFORM_STATS_QUERY)
     },
     refetchInterval: 30000, // Refetch every 30 seconds
   })
 
   if (error) {
+    console.error('Platform stats error:', error)
     return (
       <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-4">
         <p className="font-mono text-sm text-red-400">Unable to load platform statistics</p>
+        <p className="mt-2 font-mono text-xs text-red-400/70">{String(error)}</p>
       </div>
     )
   }
